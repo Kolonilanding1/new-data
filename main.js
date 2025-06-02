@@ -10,7 +10,7 @@ function login() {
 
   if (username === validUsername && password === validPassword) {
     alert("Login berhasil!");
-    window.location.href = "menu.html"; // Ganti ke halaman pilihan menu
+    window.location.href = "pages/Categori.html"; // contoh jika di folder 'pages'
   } else {
     alert("Username atau password salah!");
   }

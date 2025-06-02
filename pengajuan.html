@@ -1,0 +1,22 @@
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pengajuan Pinjaman</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Form Pengajuan Pinjaman</h2>
+  <form id="formPinjaman">
+    <label>Nama Peminjam:</label>
+    <input type="text" id="namaPeminjam" required>
+    <label>Jumlah Pinjaman:</label>
+    <input type="number" id="jumlahPinjam" required>
+    <label>Tanggal Pengambilan:</label>
+    <input type="date" id="tanggalAmbil" required>
+    <button type="submit">Ajukan</button>
+  </form>
+  <button onclick="logout()">Logout</button>
+  <script src="main.js"></script>
+</body>
+</html>

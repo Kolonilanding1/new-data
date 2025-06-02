@@ -403,7 +403,7 @@ function goToCategory() {
   window.location.href = "Categori.html";
 }
 
-// Fungsi lanjut proses dan buka WhatsApp dengan pesan otomatis
+// Fungsi lanjut proses dan buka WhatsApp dengan pesan otomatis + validasi wajib isi nama dan pinjaman
 function proceed() {
   const rows = document.querySelectorAll('#form-rows-container .form-row');
   if (rows.length === 0) {
@@ -411,27 +411,80 @@ function proceed() {
     return;
   }
 
-  let pesan = "Permohonan ACC Pinjaman:\n\n";
+  // Ambil data admin (baris 1)
+  const adminRow = rows[0];
+  const adminName = adminRow.querySelector('input[type="text"]').value.trim();
+  const adminRupiahInput = adminRow.querySelector('.currency-wrapper:nth-child(2) .currency-input');
+  const adminDollarInput = adminRow.querySelector('.currency-wrapper:nth-child(3) .currency-input');
 
-  rows.forEach((row, index) => {
+  const adminRupiahNum = parseInt(adminRupiahInput.value.replace(/\D/g, '')) || 0;
+  const adminDollarNum = parseInt(adminDollarInput.value) || 0;
+
+  if (!adminName) {
+    alert("Nama admin (penerima modal) wajib diisi.");
+    adminRow.querySelector('input[type="text"]').focus();
+    return;
+  }
+  if (adminRupiahNum < 500000 && adminDollarNum < 100) {
+    alert("Modal admin harus minimal Rp500.000 atau $100.");
+    if (adminRupiahNum < 500000) {
+      adminRupiahInput.focus();
+    } else {
+      adminDollarInput.focus();
+    }
+    return;
+  }
+
+  // Buat teks modal admin yang sesuai, cek rupiah dan dollar
+  let modalAdminText = "";
+  if (adminRupiahNum > 0 && adminDollarNum > 0) {
+    modalAdminText = `Rp ${adminRupiahInput.value} dan $${adminDollarInput.value}`;
+  } else if (adminRupiahNum > 0) {
+    modalAdminText = `Rp ${adminRupiahInput.value}`;
+  } else if (adminDollarNum > 0) {
+    modalAdminText = `$${adminDollarInput.value}`;
+  }
+
+  let pesan = `*Pemberitahuan Mengajukan Modal*\n\nADMIN *${adminName}* mengajukan modal sebesar ${modalAdminText}.\nModal ini akan disalurkan kepada peminjam-peminjam berikut:\n\n`;
+
+  // Validasi dan ambil data peminjam mulai dari index 1
+  for (let i = 1; i < rows.length; i++) {
+    const row = rows[i];
     const nama = row.querySelector('input[type="text"]').value.trim();
     const rupiahInput = row.querySelector('.currency-wrapper:nth-child(2) .currency-input');
     const dollarInput = row.querySelector('.currency-wrapper:nth-child(3) .currency-input');
 
-    const rupiah = rupiahInput ? rupiahInput.value.trim() : '';
-    const dollar = dollarInput ? dollarInput.value.trim() : '';
+    const rupiahNum = parseInt(rupiahInput.value.replace(/\D/g, '')) || 0;
+    const dollarNum = parseInt(dollarInput.value) || 0;
 
-    if (nama || rupiah || dollar) {
-      pesan += `Penerima ${index + 1}:\n`;
-      pesan += `- Nama: ${nama || '-'}\n`;
-      pesan += `- Pinjaman Rp: ${rupiah || '-'}\n`;
-      pesan += `- Pinjaman $: ${dollar || '-'}\n\n`;
+    if (!nama) {
+      alert(`Nama peminjam ke-${i} wajib diisi.`);
+      row.querySelector('input[type="text"]').focus();
+      return;
     }
-  });
+    if (rupiahNum < 500000 && dollarNum < 100) {
+      alert(`Jumlah pinjaman peminjam ke-${i} harus minimal Rp500.000 atau $100.`);
+      if (rupiahNum < 500000) {
+        rupiahInput.focus();
+      } else {
+        dollarInput.focus();
+      }
+      return;
+    }
 
-  if (pesan === "Permohonan ACC Pinjaman:\n\n") {
-    alert("Mohon isi minimal satu data pinjaman.");
-    return;
+    // Buat teks pinjaman sesuai kondisi
+    let pinjamanText = "";
+    if (rupiahNum > 0 && dollarNum > 0) {
+      pinjamanText = `Rp ${rupiahInput.value} dan $${dollarInput.value}`;
+    } else if (rupiahNum > 0) {
+      pinjamanText = `Rp ${rupiahInput.value}`;
+    } else if (dollarNum > 0) {
+      pinjamanText = `$${dollarInput.value}`;
+    }
+
+    pesan += `Peminjam ${i}:\n`;
+    pesan += `- Nama: ${nama}\n`;
+    pesan += `- Pinjaman: ${pinjamanText}\n\n`;
   }
 
   const nomorWA = "6281234567890"; // Ganti dengan nomor WhatsApp tujuan

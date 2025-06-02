@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pilihan Menu</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #f7f9fc, #e3effd);
+      margin: 0;
+      padding: 40px 20px;
+      color: #2c3e50;
+    }
+
+    h1 {
+      text-align: center;
+      font-weight: 900;
+      font-size: 3rem;
+      margin-bottom: 50px;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #ff8a00, #e52e71);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .category-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-align: center;
+      color: #2c3e50;
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .category-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 45px rgba(0,0,0,0.15);
+    }
+
+    .category-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .category-card:hover .category-image {
+      transform: scale(1.05);
+    }
+
+    .category-title {
+      font-weight: 800;
+      font-size: 1.5rem;
+      padding: 18px 20px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      padding: 30px 20px;
+      background: #ffffffaa;
+      border-top: 1px solid #ddd;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 12px;
+    }
+
+    footer h2 {
+      font-size: 2rem;
+      color: #e74c3c;
+      margin-bottom: 10px;
+    }
+
+    footer p {
+      font-size: 1.1rem;
+      color: #34495e;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+      }
+
+      .category-image {
+        height: 140px;
+      }
+
+      .category-title {
+        font-size: 1.3rem;
+        padding: 14px 16px;
+      }
+
+      footer h2 {
+        font-size: 1.5rem;
+      }
+
+      footer p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Explore Our Menu</h1>
+
+  <div class="categories-grid">
+    <a href="cookies.html" class="category-card" title="Cookies Premium">
+      <img class="category-image" src="https://i.postimg.cc/L4ZDPh38/image.png" alt="Cookies Premium" />
+      <div class="category-title">Pengajuan Pinjaman</div>
+    </a>
+
+    <a href="sambal.html" class="category-card" title="Harga Sambal">
+      <img class="category-image" src="https://i.postimg.cc/cJPSDrgL/image.png" alt="Harga Sambal" />
+      <div class="category-title">Statistik Pinjaman</div>
+    </a>
+
+    <a href="keripik.html" class="category-card" title="Aneka Keripik">
+      <img class="category-image" src="https://i.postimg.cc/C1Z2zgNB/image.png" alt="Keripik Ubi" />
+      <div class="category-title">Database</div>
+    </a>
+  </div>
+
+<footer>
+  <h2>Solusi Pinjaman yang Aman dan Terpercaya</h2>
+  <p>
+    Kami berkomitmen memberikan layanan pinjaman yang mudah, cepat, dan transparan.
+    Dari kebutuhan mendesak hingga pengembangan usaha, kami hadir untuk mendukung impian Anda.
+  </p>
+  <p><strong>✔️ Suku bunga bersaing | ✔️ Tanpa jaminan | ✔️ Proses cepat dan aman</strong></p>
+  <p><small>&copy; 2025 Pinjaman Berbunga | Terdaftar dan diawasi oleh OJK.</small></p>
+</footer>
+
+</body>
+</html>

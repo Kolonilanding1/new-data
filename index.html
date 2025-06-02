@@ -103,13 +103,32 @@
         return;
       }
 
-      if (username === 'admin' && password === '123456') {
-        alert('Login berhasil!');
-        window.location.href = "Categori.html";
-        // Bisa tambah redirect di sini
-      } else {
-        alert('Username atau password salah.');
+      // Validasi 3 user dengan password masing-masing
+      if (username === 'admin1' && password === 'admin1pass') {
+        sessionStorage.setItem('username', username);
+        sessionStorage.setItem('role', 'admin');
+        alert('Login berhasil sebagai Admin 1!');
+        window.location.href = "Categori.html"; // Ganti dengan halaman admin
+        return;
       }
+
+      if (username === 'admin2' && password === 'admin2pass') {
+        sessionStorage.setItem('username', username);
+        sessionStorage.setItem('role', 'admin');
+        alert('Login berhasil sebagai Admin 2!');
+        window.location.href = "Categori.html"; // Ganti dengan halaman admin
+        return;
+      }
+
+      if (username === 'owner' && password === 'ownerpass') {
+        sessionStorage.setItem('username', username);
+        sessionStorage.setItem('role', 'owner');
+        alert('Login berhasil sebagai Owner!');
+        window.location.href = "Categori.html"; // Ganti dengan halaman owner
+        return;
+      }
+
+      alert('Username atau password salah.');
     }
   </script>
 </body>

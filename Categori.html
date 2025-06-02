@@ -23,6 +23,41 @@ body {
   transition: background 0.5s ease;
 }
 
+.logout-container {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.logout-button {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
+  user-select: none;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.logout-button:hover {
+  background-color: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(220, 38, 38, 0.3);
+}
+
+.logout-button:active {
+  transform: scale(0.98);
+  background-color: #b91c1c;
+}
+
 h1 {
   max-width: 800px;
   width: 100%;
@@ -145,44 +180,58 @@ footer small {
   body {
     padding: 40px 12px 60px;
   }
-  
+
+  .logout-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .logout-container {
+    justify-content: center;
+  }
+
   h1 {
     font-size: 2.2rem;
     max-width: 100%;
     margin-bottom: 40px;
   }
-  
+
   .categories-grid {
     grid-template-columns: 1fr;
     gap: 22px;
     padding: 0 6px;
   }
-  
+
   .category-image {
     height: 150px;
   }
-  
+
   .category-title {
     font-size: 1.3rem;
   }
-  
+
   footer {
     padding: 30px 20px;
     margin-top: 60px;
   }
-  
+
   footer h2 {
     font-size: 1.6rem;
   }
-  
+
   footer p {
     font-size: 1rem;
   }
 }
+
   </style>
 </head>
 <body>
-
+  <div class="logout-container">
+    <a href="index.html" class="logout-button">Logout</a>
+  </div>
   <h1>Harap di Pilih Dengan Bijak!</h1>
 
   <div class="categories-grid">

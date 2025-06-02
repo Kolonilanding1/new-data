@@ -1,1 +1,28 @@
-
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statistik</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Statistik Pinjaman</h2>
+  <canvas id="statChart" width="400" height="200"></canvas>
+  <div id="filter">
+    <label>Bulan:</label>
+    <select id="bulanSelect"></select>
+    <label>Tahun:</label>
+    <select id="tahunSelect"></select>
+  </div>
+  <table id="tablePeminjam">
+    <thead>
+      <tr><th>Nama</th><th>Jumlah</th><th>Tanggal</th><th>Admin</th><th>Bunga (%)</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <div id="statRingkasan"></div>
+  <button onclick="logout()">Logout</button>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

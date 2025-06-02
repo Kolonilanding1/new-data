@@ -1,138 +1,112 @@
-/* GENERAL */
-* {
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
 }
 
-body {
-  background-color: #f9f9f9;
-  color: #333;
-  padding: 20px;
-}
-
-/* CONTAINER */
+/* Container untuk Login */
 .container {
   max-width: 400px;
-  margin: 80px auto;
-  background: #fff;
+  margin: 100px auto;
+  background-color: white;
   padding: 30px;
-  border-radius: 12px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+h2 {
   text-align: center;
+  color: #333;
 }
 
-.container h2 {
-  margin-bottom: 20px;
-  color: #444;
-}
-
-/* FORM */
-input, select {
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+select {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   margin: 10px 0;
+  border-radius: 5px;
   border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 16px;
 }
 
 button {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   background-color: #007bff;
-  color: white;
   border: none;
-  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-  font-size: 16px;
+  margin-top: 10px;
 }
 
 button:hover {
   background-color: #0056b3;
 }
 
-/* TABLE */
+/* === NAVIGATION === */
+.navbar {
+  background-color: #007bff;
+  padding: 10px 0;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li {
+  margin: 0 20px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+/* Table */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  overflow: hidden;
+  background-color: white;
 }
 
-table thead {
-  background-color: #007bff;
-  color: white;
+table, th, td {
+  border: 1px solid #ddd;
 }
 
-table th, table td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #eee;
+th, td {
+  padding: 10px;
+  text-align: center;
 }
 
-table tr:hover {
-  background-color: #f1f1f1;
-}
-
-/* FORM WRAPPER */
-form {
-  max-width: 500px;
-  margin: 30px auto;
-  background: #fff;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.1);
-}
-
-/* FILTER DROPDOWNS */
-#filter {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 20px 0;
-}
-
-#filter label {
-  font-weight: 600;
-  margin-right: 5px;
-}
-
-#filter select {
-  flex: 1;
-  min-width: 120px;
-}
-
-/* RINGKASAN STATISTIK */
+/* Ringkasan */
 #statRingkasan {
-  margin-top: 30px;
-  font-size: 16px;
-  background: #e9f4ff;
+  margin-top: 20px;
+  background-color: #fff;
   padding: 15px;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
-/* RESPONSIVE */
-@media (max-width: 600px) {
-  .container, form {
-    padding: 20px;
-    margin: 20px auto;
-  }
-
-  table th, table td {
-    padding: 8px;
-    font-size: 14px;
-  }
-
-  button {
-    font-size: 15px;
-  }
-
-  #filter {
-    flex-direction: column;
-  }
+/* Filter dropdown */
+#filter {
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }

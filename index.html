@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login Admin/Owner</title>
   <style>
-    /* Reset dasar */
     * {
       margin: 0; padding: 0; box-sizing: border-box;
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -103,32 +102,21 @@
         return;
       }
 
-      // Validasi 3 user dengan password masing-masing
-      if (username === 'admin1' && password === 'admin1pass') {
-        sessionStorage.setItem('username', username);
-        sessionStorage.setItem('role', 'admin');
-        alert('Login berhasil sebagai Admin 1!');
-        window.location.href = "html/Categori.html"; // Ganti dengan halaman admin
-        return;
-      }
+      // Validasi user
+      const users = {
+        'admin1': 'admin1pass',
+        'admin2': 'admin2pass',
+        'owner':  'ownerpass'
+      };
 
-      if (username === 'admin2' && password === 'admin2pass') {
+      if (users[username] && users[username] === password) {
         sessionStorage.setItem('username', username);
-        sessionStorage.setItem('role', 'admin');
-        alert('Login berhasil sebagai Admin 2!');
-        window.location.href = "html/Categori.html"; // Ganti dengan halaman admin
-        return;
+        sessionStorage.setItem('role', username.startsWith('admin') ? 'admin' : 'owner');
+        alert(`Login berhasil sebagai ${username.charAt(0).toUpperCase() + username.slice(1)}!`);
+        window.location.href = "html/Categori.html";
+      } else {
+        alert('Username atau password salah.');
       }
-
-      if (username === 'owner' && password === 'ownerpass') {
-        sessionStorage.setItem('username', username);
-        sessionStorage.setItem('role', 'owner');
-        alert('Login berhasil sebagai Owner!');
-        window.location.href = "html/Categori.html"; // Ganti dengan halaman owner
-        return;
-      }
-
-      alert('Username atau password salah.');
     }
   </script>
 </body>

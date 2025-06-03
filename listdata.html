@@ -1,235 +1,585 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>List Data Peminjaman</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard Peminjaman Modal</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f2f2f2; }
-    h2 { margin-bottom: 10px; }
-    table { width: 100%; border-collapse: collapse; background: #fff; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background: #e0e0e0; }
-    .details { display: none; margin-top: 10px; margin-bottom: 10px; }
-    .owner-only { color: red; cursor: pointer; }
-    .btn { padding: 4px 8px; margin-right: 5px; cursor: pointer; border: none; border-radius: 4px; }
-    .btn-danger { background: red; color: white; }
-    .btn-acc { background: green; color: white; }
-    .btn-tolak { background: #555; color: white; }
-    .filters input, .filters select { padding: 5px; margin-right: 10px; }
-    .row-error { background-color: #ffe6e6 !important; }
+    /* Reset & Base */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9fafd;
+      color: #333;
+      padding: 20px;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background-color: #007bff;
+      color: #fff;
+      padding: 25px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 30px;
+      user-select: none;
+    }
+
+    /* Filters Section */
+    .filters {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+      align-items: center;
+    }
+
+    .filters input[type="text"],
+    .filters input[type="date"],
+    .filters select {
+      flex: 1 1 180px;
+      padding: 12px 15px;
+      font-size: 1rem;
+      border: 1.8px solid #ccc;
+      border-radius: 8px;
+      transition: border-color 0.3s ease;
+    }
+    .filters input[type="text"]:focus,
+    .filters input[type="date"]:focus,
+    .filters select:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 8px rgba(0,123,255,0.4);
+    }
+
+    .filters button {
+      padding: 12px 22px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background-color 0.3s ease;
+    }
+    .filters button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Summary Panel - 4 kotak */
+    .summary {
+      display: flex;
+      gap: 25px;
+      margin-bottom: 40px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #222;
+      flex-wrap: wrap;
+    }
+    .summary div {
+      background: white;
+      padding: 15px 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      flex: 1 1 220px;
+      text-align: center;
+      min-width: 180px;
+    }
+    .summary div strong {
+      display: block;
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+      color: #007bff;
+    }
+
+    /* Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 12px rgba(0,0,0,0.08);
+      margin-bottom: 50px;
+    }
+    thead {
+      background-color: #007bff;
+      color: white;
+      font-weight: 600;
+    }
+    th, td {
+      padding: 14px 20px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    tbody tr:hover:not(.row-error) {
+      background-color: #f1f9ff;
+      transition: background-color 0.25s ease;
+    }
+
+    .row-error {
+      background-color: #fde2e2 !important;
+      color: #a71d2a;
+      font-weight: 600;
+    }
+
+    /* Buttons inside table */
+    .btn {
+      padding: 7px 14px;
+      font-size: 13px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      margin-right: 6px;
+      transition: background-color 0.25s ease;
+      color: white;
+      user-select: none;
+    }
+    .btn-acc {
+      background-color: #28a745;
+    }
+    .btn-acc:hover {
+      background-color: #1e7e34;
+    }
+    .btn-tolak {
+      background-color: #6c757d;
+    }
+    .btn-tolak:hover {
+      background-color: #565e64;
+    }
+
+    /* Details row */
+    .details {
+      background: #f7f9fc;
+      font-size: 14px;
+      color: #555;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .filters {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .summary {
+        flex-direction: column;
+      }
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      thead tr {
+        display: none;
+      }
+      tbody tr {
+        margin-bottom: 20px;
+        border-radius: 12px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+        background: white;
+        padding: 15px;
+      }
+      tbody tr td {
+        border: none;
+        padding-left: 50%;
+        position: relative;
+        text-align: right;
+      }
+      tbody tr td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 20px;
+        width: 45%;
+        padding-left: 10px;
+        font-weight: 700;
+        text-align: left;
+        color: #007bff;
+      }
+      .btn {
+        margin: 5px 2px 0 0;
+      }
+    }
+
+    /* Modal styling */
+    #peminjamModal {
+      display: none;
+      position: fixed;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      z-index: 1000;
+      max-width: 400px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    #peminjamModal h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-weight: 700;
+      color: #007bff;
+    }
+    #peminjamModal button {
+      margin-top: 20px;
+      padding: 10px 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    #peminjamModal button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Overlay behind modal */
+    #modalOverlay {
+      display: none;
+      position: fixed;
+      top:0; left:0; right:0; bottom:0;
+      background: rgba(0,0,0,0.3);
+      z-index: 999;
+    }
   </style>
 </head>
 <body>
 
-<h2>Daftar Data Peminjaman</h2>
+  <div class="container">
 
-<div class="filters">
-  <input type="text" id="filterAdmin" placeholder="Filter Admin...">
-  <input type="date" id="filterTanggal">
-  <select id="filterStatus">
-    <option value="">Semua Status</option>
-    <option value="Belum ACC">Belum ACC</option>
-    <option value="ACC">ACC</option>
-    <option value="Ditolak">Ditolak</option>
-  </select>
-  <button onclick="applyFilters()">Terapkan Filter</button>
-</div>
+    <header>Dashboard Peminjaman Modal</header>
 
-<h3>Total Modal Keluar:</h3>
-<ul>
-  <li><strong>Rupiah:</strong> <span id="totalModalRp">Rp0</span></li>
-  <li><strong>Dollar:</strong> <span id="totalModalUsd">$0</span></li>
-</ul>
+    <section class="filters" aria-label="Filter dan pencarian data">
+      <input type="text" id="filterAdmin" placeholder="Cari admin..." aria-label="Cari admin" />
+      <input type="date" id="filterTanggal" aria-label="Filter tanggal" />
+      <select id="filterStatus" aria-label="Filter status">
+        <option value="">Semua Status</option>
+        <option value="Belum ACC">Belum ACC</option>
+        <option value="ACC">ACC</option>
+        <option value="Ditolak">Ditolak</option>
+        <option value="Diblokir">Diblokir</option>
+      </select>
+      <button id="resetFilters" aria-label="Reset filter dan pencarian">Reset</button>
+    </section>
 
-<table id="dataTable">
-  <thead>
-    <tr>
-      <th>Admin</th>
-      <th>Tanggal</th>
-      <th>Modal (Rp)</th>
-      <th>Modal (USD)</th>
-      <th>Status</th>
-      <th>Aksi</th>
-    </tr>
-  </thead>
-  <tbody id="dataBody">
-    <!-- Data akan di-render dengan JavaScript -->
-  </tbody>
-</table>
+    <section class="summary" aria-label="Ringkasan modal dan peminjaman">
+      <div>
+        <strong id="modalAwalRupiah">0</strong>
+        Modal Awal (Rp)
+      </div>
+      <div>
+        <strong id="modalAwalDollar">0</strong>
+        Modal Awal (USD)
+      </div>
+      <div>
+        <strong id="totalPinjamanRupiah">0</strong>
+        Total Peminjaman (Rp)
+      </div>
+      <div>
+        <strong id="totalPinjamanDollar">0</strong>
+        Total Peminjaman (USD)
+      </div>
+    </section>
 
-<script>
-const role = "owner"; // Ubah ke "admin" untuk simulasi tampilan admin
+    <section aria-label="Daftar data peminjaman modal">
+      <table aria-describedby="table-desc" role="table">
+        <caption id="table-desc" class="sr-only">Tabel data peminjaman modal oleh admin</caption>
+        <thead>
+          <tr>
+            <th scope="col">Admin</th>
+            <th scope="col">Modal Awal (Rp/USD)</th>
+            <th scope="col">Total Peminjaman (Rp/USD)</th>
+            <th scope="col">Tanggal</th>
+            <th scope="col">Status</th>
+            <th scope="col">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- Rows injected by JS -->
+        </tbody>
+      </table>
+    </section>
 
-const data = [
-  {
-    admin: "Sapani",
-    tanggal: "2025-06-01",
-    modalRp: 1000000,
-    modalUsd: 100,
-    status: "Belum ACC",
-    peminjam: [
-      { nama: "Budi", tanggal: "2025-06-01", jumlah: "Rp500000" },
-      { nama: "Ani", tanggal: "2025-06-01", jumlah: "$50" }
-    ]
-  },
-  {
-    admin: "Wati",
-    tanggal: "2025-06-02",
-    modalRp: 2000000,
-    modalUsd: 0,
-    status: "ACC",
-    peminjam: [
-      { nama: "Joko", tanggal: "2025-06-02", jumlah: "Rp2000000" }
-    ]
-  },
-  {
-    admin: "Lisa",
-    tanggal: "2025-06-03",
-    modalRp: 0,
-    modalUsd: 100,
-    status: "ACC",
-    peminjam: [
-      { nama: "Andi", tanggal: "2025-06-03", jumlah: "$60" },
-      { nama: "Rina", tanggal: "2025-06-03", jumlah: "$50" }
-    ]
-  }
-];
+  </div>
 
-function formatRupiah(number) {
-  return "Rp" + number.toLocaleString("id-ID");
-}
+  <!-- Modal Peminjam -->
+  <div id="modalOverlay"></div>
+  <div id="peminjamModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+    <h3 id="modalTitle">Detail Peminjam</h3>
+    <div id="modalDesc"></div>
+    <button id="closeModal">Tutup</button>
+  </div>
 
-function formatDollar(number) {
-  return "$" + number.toLocaleString("en-US", { minimumFractionDigits: 2 });
-}
+  <script>
+    // Contoh data dummy peminjaman admin
+    const dataPeminjaman = [
+      {
+        admin: "Amir",
+        modalAwalRp: 75000000,
+        modalAwalUSD: 5000,
+        pinjamanRp: 150000000,
+        pinjamanUSD: 0,
+        tanggal: "2023-08-22",
+        status: "Belum ACC",
+        detail: "Peminjam Amir mengajukan modal awal Rp 75.000.000 dan pinjaman Rp 150.000.000.",
+      },
+      {
+        admin: "Budi",
+        modalAwalRp: 50000000,
+        modalAwalUSD: 0,
+        pinjamanRp: 0,
+        pinjamanUSD: 3500,
+        tanggal: "2023-08-15",
+        status: "ACC",
+        detail: "Peminjam Budi mendapat modal awal Rp 50.000.000 dan pinjaman USD 3500.",
+      },
+      {
+        admin: "Citra",
+        modalAwalRp: 100000000,
+        modalAwalUSD: 2000,
+        pinjamanRp: 200000000,
+        pinjamanUSD: 0,
+        tanggal: "2023-09-10",
+        status: "Ditolak",
+        detail: "Peminjam Citra mengajukan pinjaman tapi status ditolak.",
+      },
+      {
+        admin: "Dewi",
+        modalAwalRp: 0,
+        modalAwalUSD: 10000,
+        pinjamanRp: 0,
+        pinjamanUSD: 15000,
+        tanggal: "2023-07-30",
+        status: "Diblokir",
+        detail: "Peminjam Dewi diblokir karena tidak memenuhi syarat.",
+      },
+      {
+        admin: "Eka",
+        modalAwalRp: 25000000,
+        modalAwalUSD: 0,
+        pinjamanRp: 100000000,
+        pinjamanUSD: 0,
+        tanggal: "2023-10-01",
+        status: "ACC",
+        detail: "Peminjam Eka sudah mendapatkan ACC untuk pinjaman Rp 100.000.000.",
+      }
+    ];
 
-function parseCurrency(jumlah) {
-  if (jumlah.includes("Rp")) {
-    return { mataUang: "Rp", nilai: parseInt(jumlah.replace(/[^0-9]/g, '')) };
-  } else if (jumlah.includes("$")) {
-    return { mataUang: "$", nilai: parseFloat(jumlah.replace(/[^0-9.]/g, '')) };
-  }
-  return { mataUang: "", nilai: 0 };
-}
-
-// Fungsi untuk format string jumlah seperti "Rp500000" jadi "Rp500.000"
-function formatCurrencyString(jumlah) {
-  if (jumlah.includes("Rp")) {
-    let angka = parseInt(jumlah.replace(/[^0-9]/g, ''));
-    return "Rp" + angka.toLocaleString("id-ID");
-  } else if (jumlah.includes("$")) {
-    let angka = parseFloat(jumlah.replace(/[^0-9.]/g, ''));
-    if (angka >= 1000) {
-      return "$" + angka.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    } else {
-      return "$" + angka.toFixed(2);
+    // Format angka jadi IDR dengan titik ribuan dan USD dengan koma ribuan
+    function formatRp(num) {
+      return num.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 });
     }
-  }
-  return jumlah;
-}
-
-function isValidData(item) {
-  let totalRp = 0;
-  let totalUsd = 0;
-  item.peminjam.forEach(p => {
-    const parsed = parseCurrency(p.jumlah);
-    if (parsed.mataUang === "Rp") {
-      totalRp += parsed.nilai;
-    } else if (parsed.mataUang === "$") {
-      totalUsd += parsed.nilai;
+    function formatUsd(num) {
+      return num.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 });
     }
-  });
-  return totalRp === item.modalRp && totalUsd === item.modalUsd;
-}
 
-function renderTable() {
-  const tbody = document.getElementById("dataBody");
-  tbody.innerHTML = "";
-  let totalRp = 0;
-  let totalUsd = 0;
+    // Elemen penting
+    const tableBody = document.getElementById("tableBody");
+    const filterAdmin = document.getElementById("filterAdmin");
+    const filterTanggal = document.getElementById("filterTanggal");
+    const filterStatus = document.getElementById("filterStatus");
+    const resetFilters = document.getElementById("resetFilters");
 
-  data.forEach((item, index) => {
-    if (!item.hidden) {
-      const valid = isValidData(item);
-      if (item.status !== "Ditolak") {
-        totalRp += item.modalRp;
-        totalUsd += item.modalUsd;
+    const modal = document.getElementById("peminjamModal");
+    const modalOverlay = document.getElementById("modalOverlay");
+    const modalDesc = document.getElementById("modalDesc");
+    const closeModalBtn = document.getElementById("closeModal");
+
+    // Summary elements
+    const modalAwalRpElem = document.getElementById("modalAwalRupiah");
+    const modalAwalUsdElem = document.getElementById("modalAwalDollar");
+    const totalPinjamanRpElem = document.getElementById("totalPinjamanRupiah");
+    const totalPinjamanUsdElem = document.getElementById("totalPinjamanDollar");
+
+    // Render fungsi untuk tampilkan data di tabel sesuai filter
+    function renderTable() {
+      // Ambil nilai filter dan normalize
+      const adminVal = filterAdmin.value.trim().toLowerCase();
+      const tanggalVal = filterTanggal.value;
+      const statusVal = filterStatus.value;
+
+      // Filter data
+      const filtered = dataPeminjaman.filter(item => {
+        const adminMatch = item.admin.toLowerCase().includes(adminVal);
+        const tanggalMatch = tanggalVal ? (item.tanggal === tanggalVal) : true;
+        const statusMatch = statusVal ? (item.status === statusVal) : true;
+        return adminMatch && tanggalMatch && statusMatch;
+      });
+
+      // Kosongkan tbody
+      tableBody.innerHTML = "";
+
+      // Jika kosong, tampilkan pesan
+      if (filtered.length === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 6;
+        td.style.textAlign = "center";
+        td.textContent = "Data tidak ditemukan.";
+        tr.appendChild(td);
+        tableBody.appendChild(tr);
+        updateSummary(filtered);
+        return;
       }
 
-      const tr = document.createElement("tr");
-      if (!valid) tr.classList.add("row-error");
+      // Render rows
+      filtered.forEach(item => {
+        const tr = document.createElement("tr");
 
-      tr.innerHTML = `
-        <td>
-          ${role === "owner" ? `<span class="owner-only" onclick="toggleDetail(${index})">${item.admin}</span>` : item.admin}
-        </td>
-        <td>${item.tanggal}</td>
-        <td>${formatRupiah(item.modalRp)}</td>
-        <td>${formatDollar(item.modalUsd)}</td>
-        <td>${item.status}</td>
-        <td>
-          ${role === "owner" ? `
-            <button class="btn btn-acc" onclick="setStatus(${index}, 'ACC')">ACC</button>
-            <button class="btn btn-tolak" onclick="setStatus(${index}, 'Ditolak')">Tolak</button>
-            <button class="btn btn-danger" onclick="hapusData(${index})">Hapus</button>
-          ` : "-"}
-        </td>
-      `;
-      tbody.appendChild(tr);
+        // Tandai warna baris jika status Diblokir / Ditolak
+        if(item.status === "Diblokir" || item.status === "Ditolak"){
+          tr.classList.add("row-error");
+        }
 
-      const detailRow = document.createElement("tr");
-      detailRow.className = "details";
-      detailRow.id = `detail-${index}`;
-      detailRow.style.display = "none"; // default hidden
-      detailRow.innerHTML = `
-        <td colspan="6">
-          <strong>Daftar Peminjam:</strong><br>
-          ${item.peminjam.map((p, i) => `Peminjam ${i+1}: ${p.nama}, Tanggal: ${p.tanggal}, Jumlah: ${formatCurrencyString(p.jumlah)}`).join("<br>")}
-        </td>
-      `;
-      tbody.appendChild(detailRow);
+        // Admin
+        const tdAdmin = document.createElement("td");
+        tdAdmin.textContent = item.admin;
+        tdAdmin.setAttribute("data-label", "Admin");
+        tr.appendChild(tdAdmin);
+
+        // Modal Awal (Rp / USD)
+        const tdModalAwal = document.createElement("td");
+        tdModalAwal.setAttribute("data-label", "Modal Awal (Rp/USD)");
+        tdModalAwal.textContent = formatRp(item.modalAwalRp) + " / " + formatUsd(item.modalAwalUSD);
+        tr.appendChild(tdModalAwal);
+
+        // Total Peminjaman (Rp / USD)
+        const tdPinjaman = document.createElement("td");
+        tdPinjaman.setAttribute("data-label", "Total Peminjaman (Rp/USD)");
+        tdPinjaman.textContent = formatRp(item.pinjamanRp) + " / " + formatUsd(item.pinjamanUSD);
+        tr.appendChild(tdPinjaman);
+
+        // Tanggal
+        const tdTanggal = document.createElement("td");
+        tdTanggal.setAttribute("data-label", "Tanggal");
+        tdTanggal.textContent = item.tanggal;
+        tr.appendChild(tdTanggal);
+
+        // Status
+        const tdStatus = document.createElement("td");
+        tdStatus.setAttribute("data-label", "Status");
+        tdStatus.textContent = item.status;
+        tr.appendChild(tdStatus);
+
+        // Aksi
+        const tdAksi = document.createElement("td");
+        tdAksi.setAttribute("data-label", "Aksi");
+
+        // Tombol ACC
+        const btnAcc = document.createElement("button");
+        btnAcc.textContent = "ACC";
+        btnAcc.classList.add("btn", "btn-acc");
+        btnAcc.title = "Setujui Peminjaman";
+        btnAcc.addEventListener("click", () => {
+          if(confirm(`Setujui peminjaman dari ${item.admin}?`)){
+            item.status = "ACC";
+            renderTable();
+          }
+        });
+
+        // Tombol Tolak
+        const btnTolak = document.createElement("button");
+        btnTolak.textContent = "Tolak";
+        btnTolak.classList.add("btn", "btn-tolak");
+        btnTolak.title = "Tolak Peminjaman";
+        btnTolak.addEventListener("click", () => {
+          if(confirm(`Tolak peminjaman dari ${item.admin}?`)){
+            item.status = "Ditolak";
+            renderTable();
+          }
+        });
+
+        // Tombol Detail (buka modal)
+        const btnDetail = document.createElement("button");
+        btnDetail.textContent = "Detail";
+        btnDetail.classList.add("btn");
+        btnDetail.style.backgroundColor = "#17a2b8"; // biru toska
+        btnDetail.style.marginRight = "6px";
+        btnDetail.title = "Lihat detail peminjam";
+        btnDetail.addEventListener("click", () => {
+          openModal(item.detail);
+        });
+
+        tdAksi.appendChild(btnDetail);
+
+        // Hanya tampilkan ACC dan Tolak jika status belum ACC / Ditolak / Diblokir
+        if(item.status === "Belum ACC"){
+          tdAksi.appendChild(btnAcc);
+          tdAksi.appendChild(btnTolak);
+        }
+        tr.appendChild(tdAksi);
+
+        tableBody.appendChild(tr);
+      });
+
+      // Update summary
+      updateSummary(filtered);
     }
-  });
 
-  document.getElementById("totalModalRp").textContent = formatRupiah(totalRp);
-  document.getElementById("totalModalUsd").textContent = formatDollar(totalUsd);
-}
+    // Update summary modal awal dan total pinjaman dari data filtered
+    function updateSummary(data) {
+      let sumModalRp = 0, sumModalUsd = 0, sumPinjamanRp = 0, sumPinjamanUsd = 0;
+      data.forEach(d => {
+        sumModalRp += d.modalAwalRp;
+        sumModalUsd += d.modalAwalUSD;
+        sumPinjamanRp += d.pinjamanRp;
+        sumPinjamanUsd += d.pinjamanUSD;
+      });
 
-function toggleDetail(index) {
-  const row = document.getElementById(`detail-${index}`);
-  row.style.display = row.style.display === "table-row" ? "none" : "table-row";
-}
+      modalAwalRpElem.textContent = formatRp(sumModalRp);
+      modalAwalUsdElem.textContent = formatUsd(sumModalUsd);
+      totalPinjamanRpElem.textContent = formatRp(sumPinjamanRp);
+      totalPinjamanUsdElem.textContent = formatUsd(sumPinjamanUsd);
+    }
 
-function hapusData(index) {
-  if (confirm("Yakin ingin menghapus data ini?")) {
-    data[index].hidden = true;
+    // Modal control
+    function openModal(detailText) {
+      modalDesc.textContent = detailText;
+      modal.style.display = "block";
+      modalOverlay.style.display = "block";
+      closeModalBtn.focus();
+    }
+    function closeModal() {
+      modal.style.display = "none";
+      modalOverlay.style.display = "none";
+    }
+
+    closeModalBtn.addEventListener("click", closeModal);
+    modalOverlay.addEventListener("click", closeModal);
+    window.addEventListener("keydown", e => {
+      if(e.key === "Escape" && modal.style.display === "block"){
+        closeModal();
+      }
+    });
+
+    // Reset filters
+    resetFilters.addEventListener("click", () => {
+      filterAdmin.value = "";
+      filterTanggal.value = "";
+      filterStatus.value = "";
+      renderTable();
+    });
+
+    // Filter input listeners
+    [filterAdmin, filterTanggal, filterStatus].forEach(el => {
+      el.addEventListener("input", renderTable);
+    });
+
+    // Initial render
     renderTable();
-  }
-}
-
-function setStatus(index, status) {
-  data[index].status = status;
-  renderTable();
-}
-
-function applyFilters() {
-  const adminFilter = document.getElementById("filterAdmin").value.toLowerCase();
-  const dateFilter = document.getElementById("filterTanggal").value;
-  const statusFilter = document.getElementById("filterStatus").value;
-
-  data.forEach(item => {
-    item.hidden = false;
-    if (adminFilter && !item.admin.toLowerCase().includes(adminFilter)) item.hidden = true;
-    if (dateFilter && item.tanggal !== dateFilter) item.hidden = true;
-    if (statusFilter && item.status !== statusFilter) item.hidden = true;
-  });
-
-  renderTable();
-}
-
-renderTable();
-
-</script>
-
+  </script>
 </body>
-</html>
+</html

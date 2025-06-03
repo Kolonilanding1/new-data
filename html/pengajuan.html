@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pengajuan Pinjaman</title>
+  <link rel="stylesheet" href="pengajuan.css" />
+</head>
+<body>
+
+  <div class="container">
+    <h2>Form Pengajuan Pinjaman</h2>
+    <div id="form-rows-container">
+      <div class="form-row">
+        <input type="text" placeholder="Nama Admin" />
+        <div class="currency-wrapper">
+          <span class="currency-prefix">Rp</span>
+          <input type="text" class="currency-input" placeholder="Jumlah Rupiah" />
+          <div class="step-buttons">
+            <button type="button" onclick="stepRupiah(this, 'up')">▲</button>
+            <button type="button" onclick="stepRupiah(this, 'down')">▼</button>
+          </div>
+        </div>
+        <div class="currency-wrapper">
+          <span class="currency-prefix">$</span>
+          <input type="text" class="currency-input" placeholder="Jumlah Dollar" />
+          <div class="step-buttons">
+            <button type="button" onclick="stepDollar(this, 'up')">▲</button>
+            <button type="button" onclick="stepDollar(this, 'down')">▼</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="add-row" type="button">Tambah Baris</button>
+    <button class="btn-secondary" type="button" onclick="goToCategory()">Kembali ke Menu Kategori</button>
+    <button class="btn-primary" type="button" onclick="proceed()">Lanjut</button>
+  </div>
+
+  <script src="pengajuan.js"></script>
+</body>
+</html>

@@ -102,7 +102,7 @@
         return;
       }
 
-      // Validasi user
+      // Daftar pengguna
       const users = {
         'admin1': 'admin1pass',
         'admin2': 'admin2pass',
@@ -110,10 +110,13 @@
       };
 
       if (users[username] && users[username] === password) {
+        const role = username.startsWith('admin') ? 'admin' : 'owner';
+
         sessionStorage.setItem('username', username);
-        sessionStorage.setItem('role', username.startsWith('admin') ? 'admin' : 'owner');
-        alert(`Login berhasil sebagai ${username.charAt(0).toUpperCase() + username.slice(1)}!`);
-        window.location.href = "html/Categori.html";
+        sessionStorage.setItem('role', role);
+
+        alert(`Login berhasil sebagai ${role === 'admin' ? 'Admin' : 'Owner'}!`);
+        window.location.href = "html/Categori.html"; // Semua masuk ke sini
       } else {
         alert('Username atau password salah.');
       }

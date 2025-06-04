@@ -1,0 +1,57 @@
+<!-- File: database.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Admin</title>
+  <link rel="stylesheet" href="../css/database.css" />
+  <script src="../js/database.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>Dashboard Admin</h1>
+  </header>
+
+  <section class="history-login">
+    <h2>History Login</h2>
+    <table id="loginTable">
+      <thead>
+        <tr><th>Nama Admin</th><th>Waktu Login</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section class="pengajuan-bulanan">
+    <h2>Data Pengajuan Bulanan</h2>
+    <table id="pengajuanTable">
+      <thead>
+        <tr><th>Bulan</th><th>Jumlah Pengajuan</th><th>Total Modal</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section class="admin-tools">
+    <h2>Manajemen Admin</h2>
+    <form id="adminForm">
+      <input type="text" id="adminName" placeholder="Nama Admin" required />
+      <input type="number" id="adminSaldo" placeholder="Saldo Awal" required />
+      <button type="submit">Tambah Admin</button>
+    </form>
+
+    <h3>Daftar Admin</h3>
+    <table id="adminTable">
+      <thead>
+        <tr><th>Nama</th><th>Saldo</th><th>Aksi</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Sistem Admin Pinjaman. Semua hak dilindungi.</p>
+  </footer>
+</body>
+</html>

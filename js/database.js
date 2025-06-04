@@ -35,9 +35,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   adminForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    const nama = document.getElementById("adminName").value;
+    const nama = document.getElementById("adminName").value.trim();
     const saldo = parseInt(document.getElementById("adminSaldo").value);
-    if (!nama || isNaN(saldo)) return;
+    if (!nama || isNaN(saldo)) return alert("Nama dan saldo harus diisi dengan benar.");
 
     adminData.push({ nama, saldo });
     updateAdminTable();
@@ -48,27 +48,38 @@ document.addEventListener("DOMContentLoaded", function () {
     adminTable.innerHTML = "";
     adminData.forEach((admin, index) => {
       const row = document.createElement("tr");
+
+      // Buat input nama dan saldo + button topup
       row.innerHTML = `
-        <td><input value="${admin.nama}" onchange="updateNama(${index}, this.value)" /></td>
+        <td><input class="admin-name" data-index="${index}" type="text" value="${admin.nama}" /></td>
         <td>Rp ${admin.saldo.toLocaleString()}</td>
-        <td>
-          <button onclick="topupSaldo(${index})">Top Up</button>
-        </td>
+        <td><button class="topup-btn" data-index="${index}">Top Up</button></td>
       `;
+
       adminTable.appendChild(row);
     });
   }
 
-  window.topupSaldo = function (index) {
-    const topup = prompt("Masukkan jumlah saldo tambahan:");
-    const nominal = parseInt(topup);
-    if (!isNaN(nominal)) {
-      adminData[index].saldo += nominal;
-      updateAdminTable();
+  // Event delegation untuk input nama (update nama) dan button topup
+  adminTable.addEventListener("input", function (e) {
+    if (e.target.classList.contains("admin-name")) {
+      const idx = e.target.dataset.index;
+      adminData[idx].nama = e.target.value;
     }
-  };
+  });
 
-  window.updateNama = function (index, value) {
-    adminData[index].nama = value;
-  };
+  adminTable.addEventListener("click", function (e) {
+    if (e.target.classList.contains("topup-btn")) {
+      const idx = e.target.dataset.index;
+      const input = prompt("Masukkan jumlah saldo tambahan:");
+      const nominal = parseInt(input);
+      if (!isNaN(nominal) && nominal > 0) {
+        adminData[idx].saldo += nominal;
+        updateAdminTable();
+      } else {
+        alert("Nominal tidak valid.");
+      }
+    }
+  });
+
 });

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard Peminjaman Modal</title>
+  <link rel="stylesheet" href="../html/listdata.css" />
+</head>
+<body>
+
+  <div class="container">
+    <header>Dashboard Peminjaman Modal</header>
+
+    <section class="filters" aria-label="Filter dan pencarian data">
+      <input type="text" id="filterAdmin" placeholder="Cari admin..." aria-label="Cari admin" />
+      <input type="date" id="filterTanggal" aria-label="Filter tanggal" />
+      <select id="filterStatus" aria-label="Filter status">
+        <option value="">Semua Status</option>
+        <option value="Belum ACC">Belum ACC</option>
+        <option value="ACC">ACC</option>
+        <option value="Ditolak">Ditolak</option>
+        <option value="Diblokir">Diblokir</option>
+      </select>
+      <button id="resetFilters" aria-label="Reset filter dan pencarian">Reset</button>
+    </section>
+
+    <section class="summary" aria-label="Ringkasan modal dan peminjaman">
+      <div>
+        <strong id="modalAwalRupiah">0</strong>
+        Modal Awal (Rp)
+      </div>
+      <div>
+        <strong id="modalAwalDollar">0</strong>
+        Modal Awal (USD)
+      </div>
+      <div>
+        <strong id="totalPinjamanRupiah">0</strong>
+        Total Peminjaman (Rp)
+      </div>
+      <div>
+        <strong id="totalPinjamanDollar">0</strong>
+        Total Peminjaman (USD)
+      </div>
+    </section>
+
+    <section aria-label="Daftar data peminjaman modal">
+      <table aria-describedby="table-desc" role="table">
+        <caption id="table-desc" class="sr-only">Tabel data peminjaman modal oleh admin</caption>
+        <thead>
+          <tr>
+            <th scope="col">Admin</th>
+            <th scope="col">Modal Awal (Rp/USD)</th>
+            <th scope="col">Total Peminjaman (Rp/USD)</th>
+            <th scope="col">Tanggal</th>
+            <th scope="col">Status</th>
+            <th scope="col">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- Rows injected by JS -->
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <!-- Modal Peminjam -->
+  <div id="modalOverlay"></div>
+  <div id="peminjamModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+    <h3 id="modalTitle">Detail Peminjam</h3>
+    <p id="modalDesc">Informasi lebih lanjut tentang peminjam akan ditampilkan di sini.</p>
+    <button onclick="closeModal()">Tutup</button>
+  </div>
+
+  <script src="../js/listdata.js"></script>
+</body>
+</html>

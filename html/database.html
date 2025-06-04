@@ -10,48 +10,102 @@
 </head>
 <body>
   <header>
-    <h1>Dashboard Admin</h1>
+    <div class="header-container">
+      <h1>Dashboard Admin</h1>
+      <nav>
+        <a href="login.html">Login</a>
+        <a href="Categori.html">Kategori</a>
+        <a href="pengajuan.html">Pengajuan</a>
+        <a href="listdata.html">List Data</a>
+        <a href="database.html" class="active">Database</a>
+      </nav>
+    </div>
   </header>
 
-  <section class="history-login">
-    <h2>History Login</h2>
-    <table id="loginTable">
-      <thead>
-        <tr><th>Nama Admin</th><th>Waktu Login</th></tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </section>
+  <main>
+    <!-- History Login Section -->
+    <section class="history-login">
+      <h2>📅 History Login</h2>
+      <table id="loginTable">
+        <thead>
+          <tr><th>Nama Admin</th><th>Waktu Login</th><th>IP Address</th><th>Device</th></tr>
+        </thead>
+        <tbody>
+          <!-- Diisi oleh JS -->
+        </tbody>
+      </table>
+    </section>
 
-  <section class="pengajuan-bulanan">
-    <h2>Data Pengajuan Bulanan</h2>
-    <table id="pengajuanTable">
-      <thead>
-        <tr><th>Bulan</th><th>Jumlah Pengajuan</th><th>Total Modal</th></tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </section>
+    <!-- Pengajuan Bulanan Section -->
+    <section class="pengajuan-bulanan">
+      <h2>📊 Data Pengajuan Bulanan</h2>
+      <div class="filter-bar">
+        <label for="filterMonth">Filter Bulan:</label>
+        <select id="filterMonth">
+          <option value="all">Semua</option>
+          <option value="01">Januari</option>
+          <option value="02">Februari</option>
+          <option value="03">Maret</option>
+          <option value="04">April</option>
+          <option value="05">Mei</option>
+          <option value="06">Juni</option>
+          <option value="07">Juli</option>
+          <option value="08">Agustus</option>
+          <option value="09">September</option>
+          <option value="10">Oktober</option>
+          <option value="11">November</option>
+          <option value="12">Desember</option>
+        </select>
+      </div>
+      <table id="pengajuanTable">
+        <thead>
+          <tr>
+            <th>Bulan</th>
+            <th>Nama Admin</th>
+            <th>Jumlah Pengajuan</th>
+            <th>Total Modal (Rp)</th>
+            <th>Rata-rata Pengajuan</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Diisi oleh JS -->
+        </tbody>
+      </table>
+    </section>
 
-  <section class="admin-tools">
-    <h2>Manajemen Admin</h2>
-    <form id="adminForm">
-      <input type="text" id="adminName" placeholder="Nama Admin" required />
-      <input type="number" id="adminSaldo" placeholder="Saldo Awal" required />
-      <button type="submit">Tambah Admin</button>
-    </form>
+    <!-- Admin Management Section -->
+    <section class="admin-tools">
+      <h2>👨‍💼 Manajemen Admin</h2>
 
-    <h3>Daftar Admin</h3>
-    <table id="adminTable">
-      <thead>
-        <tr><th>Nama</th><th>Saldo</th><th>Aksi</th></tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </section>
+      <form id="adminForm">
+        <input type="text" id="adminName" placeholder="Nama Admin" required />
+        <input type="number" id="adminSaldo" placeholder="Saldo Awal (Rp)" required />
+        <button type="submit">Tambah Admin</button>
+      </form>
+
+      <h3>🧾 Daftar Admin</h3>
+      <table id="adminTable">
+        <thead>
+          <tr>
+            <th>Nama</th>
+            <th>Saldo (Rp)</th>
+            <th>Pengajuan Aktif</th>
+            <th>Pengajuan Disetujui</th>
+            <th>Total Modal Diajukan</th>
+            <th>Topup Saldo</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Diisi oleh JS -->
+        </tbody>
+      </table>
+    </section>
+  </main>
 
   <footer>
-    <p>&copy; 2025 Sistem Admin Pinjaman. Semua hak dilindungi.</p>
+    <p>&copy; 2025 Sistem Admin Pinjaman. Semua hak dilindungi. | Terdaftar & diawasi oleh OJK</p>
   </footer>
 </body>
 </html>
